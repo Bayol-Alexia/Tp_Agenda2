@@ -1,6 +1,7 @@
 package agenda;
 
 import java.time.*;
+import java.time.temporal.ChronoUnit;
 
 public class Event {
 
@@ -40,8 +41,14 @@ public class Event {
      * @return true if the event occurs on that day, false otherwise
      */
     public boolean isInDay(LocalDate aDay) {
-        // TODO : implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+        int duréeMin = (int) getDuration().toMinutes();
+        LocalDateTime myEnd = myStart.plus(duréeMin, ChronoUnit.MINUTES);
+        LocalDate fin = myEnd.toLocalDate();
+        LocalDate début = myStart.toLocalDate();
+        if ((aDay.isAfter(début) && aDay.isBefore(fin) || aDay.isEqual(début) || aDay.isEqual(fin))) {
+            return true;
+        }
+        return false;
     }
    
     /**
@@ -66,6 +73,8 @@ public class Event {
         return myDuration;
     }
 
-   
-    
+    @Override
+    public String toString() {
+        return "Simple Event{ Titre :" + myTitle + ", Jour de début : " + myStart+ ", Durée : " + myDuration+ "}";
+    }
 }
